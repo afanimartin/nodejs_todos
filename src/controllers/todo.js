@@ -1,7 +1,7 @@
 import Todo from "../models/todo.js";
 
 const createTodo = async (content) => {
-  await new Todo(content).save();
+  return await new Todo(content).save();
 };
 
 const getAllTodos = async () => {
@@ -9,10 +9,7 @@ const getAllTodos = async () => {
 };
 
 const getTodo = async (id) => {
-  const todo = await Todo.findById(id);
-  if (todo) {
-    return todo;
-  }
+  return await Todo.findById(id);
 };
 
 const updateTodo = async (todo) => {

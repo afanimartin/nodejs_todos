@@ -8,10 +8,11 @@ const todoSchema = new mongoose.Schema({
     required: true,
   },
   isComplete: { type: Boolean, default: false },
-  user: {
+  userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User"
-  }
+    required: true,
+    ref: "User",
+  },
 });
 
 todoSchema.set("toJSON", {
