@@ -1,65 +1,31 @@
 import Todo from "../models/todo.js";
-import { error } from "../utils/logger.js";
 
 const createTodo = async (content) => {
-  try {
-    await new Todo(content).save();
-  } catch (err) {
-    error(err.message);
-    throw Error(err.message);
-  }
+  await new Todo(content).save();
 };
 
 const getAllTodos = async () => {
-  try {
-    return await Todo.find({});
-  } catch (err) {
-    error(err.message);
-    throw Error(err.message);
-  }
+  return await Todo.find({});
 };
 
 const getTodo = async (id) => {
-  try {
-    const todo = await Todo.findById(id);
-    if (todo) {
-      return todo;
-    } else {
-      throw Error("todo not found.");
-    }
-  } catch (err) {
-    error(err.message);
-    throw Error(err.message);
+  const todo = await Todo.findById(id);
+  if (todo) {
+    return todo;
   }
 };
 
 const updateTodo = async (todo) => {
-  try {
-    const updatedTodo = await Todo.findByIdAndUpdate(todo.id, todo, {
-      new: true,
-      truerunValidators: true,
-      context: "query",
-    });
-    if (!updatedTodo) {
-      throw Error("todo not found.");
-    }
-    return updatedTodo;
-  } catch (err) {
-    error(err.message);
-    throw Error(err.message);
-  }
+  const updatedTodo = await Todo.findByIdAndUpdate(todo.id, todo, {
+    new: true,
+    truerunValidators: true,
+    context: "query",
+  });
+  return updatedTodo;
 };
 
 const deleteTodo = async (id) => {
-  try {
-    const deletedTodo = await Todo.findByIdAndDelete(id);
-    if (!deletedTodo) {
-      throw Error("todo not found.");
-    }
-  } catch (err) {
-    error(err.message);
-    throw Error(err.message);
-  }
+  await Todo.findByIdAndDelete(id);
 };
 
 export { createTodo, getAllTodos, getTodo, updateTodo, deleteTodo };

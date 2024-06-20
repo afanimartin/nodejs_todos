@@ -1,7 +1,9 @@
 import express from "express";
+import "express-async-errors"
 import mongoose from "mongoose";
 import cors from "cors";
 import todosRouter from "./routes/todo.js";
+import usersRouter from "./routes/user.js";
 import {
   requestLogger,
   unknownEndpoint,
@@ -27,6 +29,7 @@ app.use(express.json());
 app.use(cors());
 app.use(requestLogger);
 app.use("/api/todos", todosRouter);
+app.use("/api/users", usersRouter)
 
 app.use(unknownEndpoint);
 app.use(errorHandler);
