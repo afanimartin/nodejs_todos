@@ -1,7 +1,7 @@
 import User from "../models/user.js";
 
 const getAllUsers = async () => {
-  return await User.find({});
+  return await User.find({}).populate("todos", {content: 1, isComplete: 1});
 };
 
 const createAUser = async (user) => {

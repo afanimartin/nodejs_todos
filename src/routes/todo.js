@@ -11,7 +11,7 @@ import { getAUser } from "../controllers/user.js";
 const todosRouter = express.Router();
 
 todosRouter.post("/", async (req, res) => {
-  const user = await getAUser(req.body.userId);
+  const user = await getAUser(req.body.user);
   const newTodo = await createTodo(req.body);
   user.todos = user.todos.concat(newTodo._id);
   await user.save();

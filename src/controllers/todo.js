@@ -5,7 +5,7 @@ const createTodo = async (content) => {
 };
 
 const getAllTodos = async () => {
-  return await Todo.find({});
+  return await Todo.find({}).populate("user", { username: 1, name: 1 });
 };
 
 const getTodo = async (id) => {
