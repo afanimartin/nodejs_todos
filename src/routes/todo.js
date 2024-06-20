@@ -1,4 +1,5 @@
 import express from "express";
+import jwt from "jsonwebtoken";
 import {
   createTodo,
   getAllTodos,
@@ -10,13 +11,29 @@ import { getAUser } from "../controllers/user.js";
 
 const todosRouter = express.Router();
 
+const getTokenFrom = (request) => {
+  const authorization = request.get("authorization");
+  if (authorization && authorization.startsWith("Bearer ")) {
+    return authorization.replace("Bearer ", "");
+  } else {
+    return null;
+  }
+};
+
 todosRouter.post("/", async (req, res) => {
-  const user = await getAUser(req.body.user);
-  const newTodo = await createTodo(req.body);
-  user.todos = user.todos.concat(newTodo._id);
-  await user.save();
-  const todos = await getAllTodos();
-  res.status(201).send(todos);
+  const decodedToken = jwt.verify(getTokenFrom(req), process.env.SECRET);
+  if (!decodedToken.id) {
+    res.status(401).send({ error: "invalid access token" });
+  }
+  const user = await getAUser(decodedToken.id);
+  if (user) {
+    const newTodo = await createTodo({ content: req.body.content, user: user });
+    user.todos = user.todos.concat(newTodo._id);
+    await user.save();
+    res.status(201).send({ message: "todo created successfully" });
+  } else {
+    res.status(404).send({ error: "user not found" });
+  }
 });
 
 todosRouter.get("/", async (req, res) => {

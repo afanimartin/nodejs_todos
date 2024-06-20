@@ -1,4 +1,4 @@
-import { test } from "node:test";
+import { test, describe, beforeEach, after } from "node:test";
 import assert from "node:assert";
 import mongoose from "mongoose";
 import supertest from "supertest";
@@ -7,13 +7,13 @@ import Todo from "../src/models/todo.js";
 
 const api = supertest(app);
 
-// beforeAll(async () => {
-//   await Todo.deleteMany({});
-//   let todoObject = new Todo({
-//     content: "getting started with testing in nodejs",
-//   });
-//   await todoObject.save();
-// });
+beforeEach(async () => {
+  await Todo.deleteMany({});
+  let todoObject = new Todo({
+    content: "getting started with testing in nodejs",
+  });
+  await todoObject.save();
+});
 
 test("response type is json", async () => {
   await api
@@ -33,6 +33,6 @@ test("first todo is about getting started with testing in nodejs", async () => {
   assert(contents[0].includes("getting started with testing in nodejs"), true);
 });
 
-// afterAll(async () => {
-//   await mongoose.connection.close();
-// });
+after(async () => {
+  await mongoose.connection.close();
+});

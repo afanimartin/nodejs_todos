@@ -1,9 +1,10 @@
 import express from "express";
-import "express-async-errors"
+import "express-async-errors";
 import mongoose from "mongoose";
 import cors from "cors";
 import todosRouter from "./routes/todo.js";
 import usersRouter from "./routes/user.js";
+import { authRouter } from "./routes/auth.js";
 import {
   requestLogger,
   unknownEndpoint,
@@ -16,7 +17,7 @@ mongoose.set("strictQuery", false);
 
 info("connecting to", config.MONGODB_URI);
 mongoose
-  .connect(config.MONGODB_URI, { serverSelectionTimeoutMS: 15000 })
+  .connect(config.MONGODB_URI)
   .then(() => {
     console.log(`connected to ${config.MONGODB_URI}`);
   })
@@ -29,7 +30,8 @@ app.use(express.json());
 app.use(cors());
 app.use(requestLogger);
 app.use("/api/todos", todosRouter);
-app.use("/api/users", usersRouter)
+app.use("/api/users", usersRouter);
+app.use("/api/auth", authRouter)
 
 app.use(unknownEndpoint);
 app.use(errorHandler);

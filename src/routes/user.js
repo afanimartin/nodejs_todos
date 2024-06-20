@@ -1,10 +1,9 @@
 import express from "express";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 const usersRouter = express.Router();
 
 import { getAllUsers, createAUser, getAUser } from "../controllers/user.js";
-import { isUserValid } from "../controllers/auth.js";
+
 
 usersRouter.get("/", async (req, res) => {
   const users = await getAllUsers();
@@ -31,25 +30,6 @@ usersRouter.get("/:id", async (req, res) => {
     res.status(200).send(user).end();
   } else {
     res.status(404).send({ error: "user with id not found" });
-  }
-});
-
-usersRouter.post("/login", async (req, res) => {
-  const { username, password } = req.body;
-  const doesUserExist = await isUserValid({
-    username: username,
-    password: password,
-  });
-  if (doesUserExist.isExist) {
-    const userToken = {
-      username: username,
-      id: doesUserExist.id,
-    };
-
-    const token = jwt.sign(userToken, process.env.SECRET);
-    res.status(200).send({ token: token, username: username, name: doesUserExist.user.name });
-  } else {
-    res.status(401).send({ error: "invalid username or password" });
   }
 });
 
