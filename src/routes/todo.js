@@ -11,17 +11,17 @@ import { getAUser } from "../controllers/user.js";
 
 const todosRouter = express.Router();
 
-const getTokenFrom = (request) => {
+const getTokenFromRequest = (request) => {
   const authorization = request.get("authorization");
   if (authorization && authorization.startsWith("Bearer ")) {
     return authorization.replace("Bearer ", "");
   } else {
     return null;
   }
-};
+}
 
 todosRouter.post("/", async (req, res) => {
-  const decodedToken = jwt.verify(getTokenFrom(req), process.env.SECRET);
+  const decodedToken = jwt.verify(getTokenFromRequest(req), process.env.SECRET);
   if (!decodedToken.id) {
     res.status(401).send({ error: "invalid access token" });
   }
