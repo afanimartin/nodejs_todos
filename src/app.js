@@ -1,6 +1,5 @@
 import express from "express";
 import "express-async-errors";
-import mongoose from "mongoose";
 import cors from "cors";
 import todosRouter from "./routes/todo.js";
 import usersRouter from "./routes/user.js";
@@ -10,20 +9,6 @@ import {
   unknownEndpoint,
   errorHandler,
 } from "./utils/middleware.js";
-import { info, error } from "./utils/logger.js";
-import { config } from "./utils/config.js";
-
-mongoose.set("strictQuery", false);
-
-info("connecting to", config.MONGODB_URI);
-mongoose
-  .connect(config.MONGODB_URI)
-  .then(() => {
-    console.log(`connected to ${config.MONGODB_URI}`);
-  })
-  .catch((err) => {
-    error("error connecting to MongoDB:", err.message);
-  });
 
 const app = express();
 app.use(express.json());

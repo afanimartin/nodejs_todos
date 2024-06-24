@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { User } from "./user.js";
 
 const todoSchema = new mongoose.Schema({
   content: {
@@ -11,7 +12,7 @@ const todoSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    ref: "User",
+    ref: User,
   },
 });
 
@@ -25,4 +26,4 @@ todoSchema.set("toJSON", {
 
 const Todo = mongoose.model("Todo", todoSchema);
 
-export default Todo;
+export { Todo, todoSchema };

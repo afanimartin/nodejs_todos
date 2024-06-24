@@ -7,7 +7,7 @@
   "scripts": {
     "build": "NODE_ENV=production node index.js",
     "dev": "NODE_ENV=development node_modules/.bin/nodemon index.js",
-    "test": "NODE_ENV=test node --test"
+    "test": "NODE_ENV=test vitest"
   },
   "keywords": [],
   "author": "",
@@ -23,7 +23,9 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "mongodb-memory-server": "^9.3.0",
     "nodemon": "^3.1.3",
-    "supertest": "^7.0.0"
+    "supertest": "^7.0.0",
+    "vitest": "^1.6.0"
   }
 }
