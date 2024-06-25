@@ -1,16 +1,36 @@
 import mongoose from "mongoose";
-import { info } from "./logger.js";
-import config from "./config.js";
+import { MongoMemoryServer } from "mongodb-memory-server";
 
-const connect = () => {
-  console.log(`connecting to ${config.MONGODB_URI}`)
-  mongoose.createConnection(config.MONGODB_URI);
-  info(`connected to ${config.MONGODB_URI}`)
+let mongoServer = null;
+
+const connect = async () => {
+  try {
+    mongoServer = await MongoMemoryServer.create();
+    const uri = mongoServer.getUri();
+    console.log(`connecting to ${uri}`);
+    await mongoose.connect(uri);
+    console.log(`connected to ${uri}`);
+    return uri
+  } catch (error) {
+    throw new Error("Failed to connect ", error.message);
+  }
 };
+
+const clearData = async () => {
+  if(mongoServer){
+    const collections = await mongoose.connection.db.collections()
+    for(let collection of collections){
+      await collection.remove()
+    }
+  }
+}
 
 const disconnect = async () => {
-  await mongoose.connection.dropDatabase();
-  await mongoose.connection.close();
+  if (mongoServer) {
+    await mongoose.connection.dropDatabase();
+    await mongoose.connection.close();
+    await mongoServer.stop();
+  }
 };
 
-export { connect, disconnect };
+export { connect };

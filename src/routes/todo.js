@@ -6,8 +6,8 @@ import {
   getTodo,
   updateTodo,
   deleteTodo,
-} from "../controllers/todo.js";
-import { getAUser } from "../controllers/user.js";
+} from "../controllers/todo/todo.controller.js";
+import { getAUser } from "../controllers/user/user.controller.js";
 
 const todosRouter = express.Router();
 
@@ -32,7 +32,7 @@ todosRouter.post("/", async (req, res) => {
     await user.save();
     res.status(201).send({ message: "todo created successfully" });
   } else {
-    res.status(404).send({ error: "user not found" });
+    res.status(404).end();
   }
 });
 

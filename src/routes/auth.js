@@ -1,6 +1,6 @@
 import express from "express";
 import jwt from "jsonwebtoken";
-import { isUserValid } from "../controllers/auth.js";
+import { isUserValid } from "../controllers/auth/auth.controller.js";
 
 const authRouter = express.Router();
 

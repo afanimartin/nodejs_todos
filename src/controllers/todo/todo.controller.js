@@ -1,24 +1,28 @@
-import mongoConnection from "../utils/mongoConnection.js";
-import { Todo } from "../models/todo.js";
-import config from "../utils/config.js";
+import mongoConnection from "../../utils/mongoConnection.js";
+import { Todo } from "../../models/todo.model.js";
+import config from "../../utils/config.js";
 
 const createTodo = async (content) => {
-  await mongoConnection(config.MONGODB_URI)
-  await Todo(content).save();
+  try {
+    await mongoConnection(config.MONGODB_URI);
+    await Todo(content).save();
+  } catch (err) {
+    throw new Error(err.message);
+  }
 };
 
 const getAllTodos = async () => {
-  await mongoConnection(config.MONGODB_URI)
+  await mongoConnection(config.MONGODB_URI);
   return Todo.find({}).populate("user", { username: 1, name: 1 });
 };
 
 const getTodo = async (id) => {
-  await mongoConnection(config.MONGODB_URI)
+  await mongoConnection(config.MONGODB_URI);
   return await Todo.findById(id);
 };
 
 const updateTodo = async (todo) => {
-  await mongoConnection(config.MONGODB_URI)
+  await mongoConnection(config.MONGODB_URI);
   const updatedTodo = await Todo.findByIdAndUpdate(todo.id, todo, {
     new: true,
     truerunValidators: true,
@@ -28,7 +32,7 @@ const updateTodo = async (todo) => {
 };
 
 const deleteTodo = async (id) => {
-  await mongoConnection(config.MONGODB_URI)
+  await mongoConnection(config.MONGODB_URI);
   await Todo.findByIdAndDelete(id);
 };
 

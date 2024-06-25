@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { User } from "../models/user.js";
+import { User } from "../../models/user.model.js";
 
 const isUserValid = async (authUser) => {
   const user = await User.findOne({ username: authUser.username });
