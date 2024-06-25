@@ -6,7 +6,7 @@ const getAllUsersHandler = async (req, res) => {
     const users = await getAllUsers();
     res.status(200).json(users);
   } catch (error) {
-    throw new Error(error.message);
+    throw new Error(error);
   }
 };
 
@@ -23,7 +23,7 @@ const createAUserHandler = async (req, res) => {
     await createAUser(user);
     res.status(201).json(user);
   } catch (error) {
-    throw new Error(error.message);
+    throw new Error(error);
   }
 };
 
@@ -33,7 +33,7 @@ const getAUserHandler = async (req, res) => {
     const user = await getAUser(id);
     res.status(200).json(user).end();
   } catch (error) {
-    throw new Error(error.message);
+    throw new Error(error);
   }
 };
 

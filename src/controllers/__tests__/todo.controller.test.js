@@ -9,7 +9,7 @@ import {
   deleteTodo,
 } from "../todo/todo.controller.js";
 
-describe("todo model tests", async () => {
+describe("Todo Controller Tests", async () => {
   const uri = await connect()
   test("database connection", async () => {
     expect(uri).toBeDefined()
