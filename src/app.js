@@ -1,9 +1,9 @@
 import express from "express";
 import "express-async-errors";
 import cors from "cors";
-import todosRouter from "./routes/todo.js";
-import usersRouter from "./routes/user.js";
-import { authRouter } from "./routes/auth.js";
+import todosRouter from "./routes/todo.routes.js";
+import usersRouter from "./routes/user.routes.js";
+import { authRouter } from "./routes/auth.routes.js";
 import {
   requestLogger,
   unknownEndpoint,

@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import mongoConnection from "../../utils/mongoConnection.js";
 import config from "../../utils/config.js";
 import {
@@ -8,20 +9,35 @@ import {
   deleteTodo,
 } from "./todo.controller.js";
 
-const createTodo = async (req, res) => {
+const getTokenFromRequest = (request) => {
+  const authorization = request.get("authorization");
+  if (authorization && authorization.startsWith("Bearer ")) {
+    return authorization.replace("Bearer ", "");
+  } else {
+    return null;
+  }
+};
+
+const createTodoHandler = async (req, res) => {
   try {
     await mongoConnection(config.MONGODB_URI);
-    const newTodo = {
-      content: req.body.content,
-      user: req.body.user,
-    };
-    await createTodo(newTodo);
+    const decodedToken = jwt.verify(
+      getTokenFromRequest(req, process.env.SECRET)
+    );
+    if (decodedToken.id) {
+      const newTodo = {
+        content: req.body.content,
+        user: req.body.user
+      }
+      await createTodo(newTodo);
+      res.status(200).json({ status: "success" });
+    }
   } catch (error) {
     throw new Error(error);
   }
 };
 
-const getAllTodos = async (req, res) => {
+const getAllTodosHandler = async (req, res) => {
   try {
     await mongoConnection(config.MONGODB_URI);
     const todos = await getAllTodos();
@@ -31,17 +47,17 @@ const getAllTodos = async (req, res) => {
   }
 };
 
-const getTodo = async (req, res) => {
+const getTodoHandler = async (req, res) => {
   try {
     await mongoConnection(config.MONGODB_URI);
-    const todo = await Todo.findById(req.params.id);
+    const todo = await getTodo()
     res.status(200).json(todo);
   } catch (error) {
     throw new Error(error);
   }
 };
 
-const updateTodo = async (req, res) => {
+const updateTodoHandler = async (req, res) => {
   try {
     await mongoConnection(config.MONGODB_URI);
     const updatedTodo = await updateTodo(req.body);
@@ -51,7 +67,7 @@ const updateTodo = async (req, res) => {
   }
 };
 
-const deleteTodo = async (req, res) => {
+const deleteTodoHandler = async (req, res) => {
   try {
     await mongoConnection(config.MONGODB_URI);
     await deleteTodo(req.params.id);
@@ -61,4 +77,10 @@ const deleteTodo = async (req, res) => {
   }
 };
 
-export { createTodo, getAllTodos, getTodo, updateTodo, deleteTodo };
+export {
+  createTodoHandler,
+  getAllTodosHandler,
+  getTodoHandler,
+  updateTodoHandler,
+  deleteTodoHandler,
+};

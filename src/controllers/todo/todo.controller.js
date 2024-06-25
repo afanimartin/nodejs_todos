@@ -2,9 +2,9 @@ import mongoConnection from "../../utils/mongoConnection.js";
 import { Todo } from "../../models/todo.model.js";
 import config from "../../utils/config.js";
 
-const createTodo = async (todo) => {
-    await mongoConnection(config.MONGODB_URI);
-    await Todo(todo).save();
+const createTodo = async (content) => {
+  await mongoConnection(config.MONGODB_URI);
+  await Todo(content).save();
 };
 
 const getAllTodos = async () => {
