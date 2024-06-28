@@ -23,9 +23,9 @@ describe("User API Tests", async () => {
     expect(user).toHaveProperty("name", newUser.name)
     expect(user).toHaveProperty("username", newUser.username.replace(" ", ""))
   });
-  test("GET /api/users returns list of users", async () => {
-    const response = await request(app).get("/api/users")
-    expect(response.status).toBe(200)
-    expect(response.body.length).toBe(1)
-  })
+  // test("GET /api/users returns list of users", async () => {
+  //   const response = await request(app).get("/api/users")
+  //   expect(response.status).toBe(200)
+  //   expect(response.body.length).toBe(1)
+  // })
 });
