@@ -1,5 +1,4 @@
 name: Nodejs Deployment Pipeline
-
 on:
   push:
     branches:
@@ -7,8 +6,6 @@ on:
   pull_request:
     branches: [main]
     types: [opened, synchronize]
-
-
 jobs:
   simple_deployment_pipeline:
     runs-on: ubuntu-20.4
