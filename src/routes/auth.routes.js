@@ -1,12 +1,12 @@
 import express from "express";
 import jwt from "jsonwebtoken";
-import { isUserValid } from "../controllers/auth/auth.controller.js";
+import { userValid } from "../controllers/auth/auth.controller.js";
 
 const authRouter = express.Router();
 
 authRouter.post("/login", async (req, res) => {
   const { username, password } = req.body;
-  const doesUserExist = await isUserValid({
+  const doesUserExist = await userValid({
     username: username,
     password: password,
   });

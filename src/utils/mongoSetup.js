@@ -16,21 +16,21 @@ const connect = async () => {
   }
 };
 
-const clearData = async () => {
-  if(mongoServer){
-    const collections = await mongoose.connection.db.collections()
-    for(let collection of collections){
-      await collection.remove()
-    }
-  }
-}
+// const clearData = async () => {
+//   if(mongoServer){
+//     const collections = await mongoose.connection.db.collections()
+//     for(let collection of collections){
+//       await collection.remove()
+//     }
+//   }
+// }
 
-const disconnect = async () => {
-  if (mongoServer) {
-    await mongoose.connection.dropDatabase();
-    await mongoose.connection.close();
-    await mongoServer.stop();
-  }
-};
+// const disconnect = async () => {
+//   if (mongoServer) {
+//     await mongoose.connection.dropDatabase();
+//     await mongoose.connection.close();
+//     await mongoServer.stop();
+//   }
+// };
 
 export { connect };

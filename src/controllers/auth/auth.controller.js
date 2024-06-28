@@ -11,4 +11,4 @@ const isUserValid = async (authUser) => {
   return { user: user, isExist: isPasswordCorrect };
 };
 
-export { isUserValid };
+export { isUserValid as userValid };

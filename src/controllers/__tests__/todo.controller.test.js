@@ -8,20 +8,13 @@ describe("Todo Controller Tests", async () => {
   test("database connection", async () => {
     expect(uri).toBeDefined();
   });
-  test("empty todos collection", async () => {
+  test("GET /api/todos returns empty list", async () => {
     const response = await request(app).get("/api/todos");
+    console.log(response.body)
     expect(response.status).toBe(200)
     expect(response.body.length).toBe(0);
   });
-  // test("validation error for missing user", async () => {
-  //   const newTodo = {
-  //     content: "getting started",
-  //   };
-  //   await expect(createTodo(newTodo)).rejects.toThrow(
-  //     /Todo validation failed: user: Path `user` is required./
-  //   );
-  // });
-  test("creation of todo item", async () => {
+  test("POST /api/todos creates a todo item", async () => {
     const newUser = {
       username: "joeyy",
       name: "joey kenzie",
@@ -39,7 +32,7 @@ describe("Todo Controller Tests", async () => {
     await request(app).post("/api/todos").send(newTodo);
   });
 
-  test("validation errors for missing values", async () => {
+  test("POST /api/post throws validation errors for missing values", async () => {
     let newUser = {
       username: "joeyy"
     }

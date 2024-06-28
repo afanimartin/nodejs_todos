@@ -9,6 +9,7 @@ import {
   deleteTodo,
 } from "./todo.controller.js";
 
+
 const getTokenFromRequest = (request) => {
   const authorization = request.get("authorization");
   if (authorization && authorization.startsWith("Bearer ")) {
@@ -21,6 +22,7 @@ const getTokenFromRequest = (request) => {
 const createTodoHandler = async (req, res) => {
   try {
     await mongoConnection(config.MONGODB_URI);
+    console.log(process.env.SECRET)
     const decodedToken = jwt.verify(
       getTokenFromRequest(req, process.env.SECRET)
     );
